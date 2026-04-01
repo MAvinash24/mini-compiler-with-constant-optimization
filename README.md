@@ -43,7 +43,6 @@ a = 8
 ✔ Reduces runtime computation  
 ✔ Improves performance  
 
----
 
 ### 🔹 2. Constant Propagation
 
@@ -59,7 +58,6 @@ b = 5 + 2 → 7
 ✔ Eliminates unnecessary variables  
 ✔ Simplifies expressions  
 
----
 
 ### 🔹 3. Combined Optimization
 
@@ -104,17 +102,24 @@ mini-compiler/
 ## ▶️ How to Run
 
 ### 1️⃣ Install Dependencies
+```bash
 pip install streamlit
+```
 
 ### 2️⃣ Navigate to frontend
+```bash
 cd frontend
+```
 
 ### 3️⃣ Run Application
+```bash
 streamlit run streamlit_app.py
+```
 
 ### 4️⃣ Open in Browser
+```bash
 http://localhost:8501
-
+```
 ---
 
 ## 🧪 Sample Input
