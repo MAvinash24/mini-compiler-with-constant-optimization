@@ -83,6 +83,7 @@ Input Code → Propagation → Folding → Repeat → Optimized Code
 
 ## 🏗️ Project Structure
 
+```bash
 mini-compiler/
 │
 ├── backend/
@@ -96,7 +97,7 @@ mini-compiler/
 │   └── streamlit_app.py
 │
 └── README.md
-
+```
 ---
 
 ## ▶️ How to Run
