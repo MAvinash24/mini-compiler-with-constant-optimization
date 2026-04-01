@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mini Compiler</title>
+
+<style>
+body {
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background:#0f172a;
+    color:#e2e8f0;
+}
+
+h1 {
+    text-align:center;
+    padding:15px;
+    color:#38bdf8;
+}
+
+.container {
+    width:90%;
+    margin:auto;
+}
+
+textarea {
+    width:100%;
+    height:140px;
+    background:#020617;
+    color:#38bdf8;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:10px;
+}
+
+button {
+    margin-top:10px;
+    padding:10px 20px;
+    background:#38bdf8;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover {
+    background:#0ea5e9;
+}
+
+.grid {
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.box {
+    background:#020617;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #334155;
+    min-height:120px;
+}
+
+.title {
+    color:#38bdf8;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.error { color:red; }
+.step { color:#22c55e; }
+
+pre {
+    white-space: pre-wrap;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🚀 Mini Compiler (Advanced UI)</h1>
+
+<div class="container">
+
+<textarea id="code" placeholder="Enter code here...
+
+Example:
+a = 5
+b = a + 2
+a = 10
+c = a + b"></textarea>
+
+<button onclick="compileCode()">Compile</button>
+
+<div class="grid">
+
+<div class="box">
+<div class="title">🔹 Tokens</div>
+<pre id="tokens"></pre>
+</div>
+
+<div class="box">
+<div class="title">🌳 Parse Tree</div>
+<pre id="tree"></pre>
+</div>
+
+<div class="box">
+<div class="title">❌ Errors</div>
+<pre id="errors"></pre>
+</div>
+
+<div class="box">
+<div class="title">🔹 TAC</div>
+<pre id="tac"></pre>
+</div>
+
+<div class="box">
+<div class="title">🔹 Optimized</div>
+<pre id="optimized"></pre>
+</div>
+
+<div class="box">
+<div class="title">🔹 Target</div>
+<pre id="target"></pre>
+</div>
+
+<div class="box" style="grid-column: span 2;">
+<div class="title">🎬 Step Execution</div>
+<pre id="steps"></pre>
+</div>
+
+</div>
+
+</div>
+
+<script>
+async function compileCode() {
+    let code = document.getElementById("code").value;
+
+    let res = await fetch("http://127.0.0.1:5000/compile", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({code})
+    });
+
+    let data = await res.json();
+
+    // TOKENS
+    document.getElementById("tokens").innerText =
+        JSON.stringify(data.tokens, null, 2);
+
+    // TAC + Optimized + Target
+    document.getElementById("tac").innerText = data.tac;
+    document.getElementById("optimized").innerText = data.optimized;
+    document.getElementById("target").innerText = data.target;
+
+    // ❌ ERROR HIGHLIGHT (frontend-based)
+    let errors = [];
+    let lines = code.split("\n");
+
+    lines.forEach((line, i) => {
+        if(line.includes("=")) {
+            let parts = line.split("=");
+            if(parts.length < 2 || parts[1].trim() === "") {
+                errors.push("Syntax Error at line " + (i+1));
+            }
+        }
+    });
+
+    document.getElementById("errors").innerHTML =
+        errors.length ? errors.map(e => `<span class="error">${e}</span>`).join("\n")
+                      : "No Errors";
+
+    // 🌳 PARSE TREE (basic visualization)
+    let tree = "";
+    lines.forEach(line => {
+        if(line.includes("=")) {
+            let [varName, expr] = line.split("=");
+            tree += varName.trim() + "\n";
+            tree += " ├── " + expr.trim() + "\n";
+        }
+    });
+
+    document.getElementById("tree").innerText = tree;
+
+    // 🎬 STEP ANIMATION
+    let stepsDiv = document.getElementById("steps");
+    stepsDiv.innerHTML = "";
+
+    let steps = data.optimized.split("\n");
+    let i = 0;
+
+    function showStep() {
+        if(i < steps.length) {
+            stepsDiv.innerHTML += `<div class="step">${steps[i]}</div>`;
+            i++;
+            setTimeout(showStep, 500);
+        }
+    }
+
+    showStep();
+}
+</script>
+
+</body>
+</html>
