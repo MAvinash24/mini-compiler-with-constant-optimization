@@ -114,7 +114,7 @@ cd frontend
 
 ### 3️⃣ Run Application
 ```bash
-streamlit run streamlit_app.py
+streamlit run streamlit_app.py (or) python -m streamlit run streamlit_app.py
 ```
 
 ### 4️⃣ Open in Browser
