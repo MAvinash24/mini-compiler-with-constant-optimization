@@ -67,7 +67,7 @@ div[data-baseweb="notification"] {
 
 </style>
 """, unsafe_allow_html=True)
-st.title(" Amrita Mini Compiler (Advanced Visualization)")
+st.title("Mini Compiler (Advanced Visualization)")
 
 code = st.text_area("Enter Code", height=150, value="""a = 5
 b = a + 2
