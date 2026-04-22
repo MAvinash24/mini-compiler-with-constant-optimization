@@ -140,7 +140,7 @@ c = 21
 
 ---
 
-## 🎤 Viva Explanation
+## 🎤 Final Explanation
 
 This project demonstrates how compiler optimization techniques like constant folding and constant propagation reduce runtime computation by evaluating expressions during compilation.
 
