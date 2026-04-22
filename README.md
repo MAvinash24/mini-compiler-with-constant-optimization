@@ -119,7 +119,7 @@ streamlit run streamlit_app.py (or) python -m streamlit run streamlit_app.py
 
 ### 4️⃣ Open in Browser
 ```bash
-http://localhost:8501
+http://localhost:xxxx
 ```
 ---
 
